@@ -94,15 +94,22 @@ while True:
             print(text)
         #cv2.imshow('frame', frame)
         # All the results have been drawn on the frame, so it's time to display it.
-            if label == 'Speed 60':
+            if  label == 'red':
+                print('Red light stop')
+                act='stop'
+            elif label == 'Stop':
+                print('stop  {}'.format(confidence))
+                act='stop'
+            elif label == 'green':
+                print('Green light go')
+                act = '1'    
+            elif label == 'Speed 60':
                 print('speed 60 {}'.format(confidence))
                 act=60
             elif label == 'Speed 30':
                 print('speed 30 {}'.format(confidence))
-                act=30
-            elif label == 'Stop':
-                print('stop  {}'.format(confidence))
-                act='stop'
+                act=30            
+            
     else:
         act = yukigo(decimg)
 
