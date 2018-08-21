@@ -12,14 +12,23 @@ from darkflow.net.build import TFNet
 import tensorflow as tf
 
 options = {
-    'model': 'cfg/yolov2-voc.cfg',
-    'load': 14000,
-    'threshold': 0.5,
+    'model': 'cfg/yolov2-voc-all.cfg',
+    'load': 10000,
+    'threshold': 0.35,
     'gpu':0.7
 }
 
 tfnet = TFNet(options)
 colors = [tuple(255 * np.random.rand(3)) for _ in range(10)]
+
+def recvall(sock, count):
+    buf = b''
+    while count:
+        newbuf = sock.recv(count)
+        if not newbuf: return None
+        buf += newbuf
+        count -= len(newbuf)
+    return buf
 
 def yukigo(decimg):
 #go FRL                      
@@ -38,14 +47,23 @@ def yukigo(decimg):
     actu = np.argmax(test_pred[0])
     return actu
 
-def recvall(sock, count):
-    buf = b''
-    while count:
-        newbuf = sock.recv(count)
-        if not newbuf: return None
-        buf += newbuf
-        count -= len(newbuf)
-    return buf
+#go speed change
+def trsigngo(labelin):
+    labellist = {9:'Speed 30',10:'Speed 60'}
+    spdirection = {1:1,2:2,3:3}
+    speed9 = {1:'sf30',2:'sr30',3:'sl30'}
+    speed10 = {1:'sf60',2:'sf60',3:'sl60'}
+    for i in range(9,11):
+        if labellist[i] == labelin:
+            for i2 in range(1,4):
+                if yukigo(decimg) == spdirection[i2]:
+                    if i == 9:
+                        acts = speed9[i2]
+                        return(acts)
+                    elif i == 10:
+                        acts = speed10[i2]
+                        return(acts)
+#go speed change
 actu = 0
 #load yuki model
 model = load_model('my_model.h5')
@@ -86,6 +104,7 @@ while True:
             tl = (result['topleft']['x'], result['topleft']['y'])
             br = (result['bottomright']['x'], result['bottomright']['y'])
             label = result['label']
+            labelin = label
             confidence = result['confidence']
             text = '{}: {:.0f}%'.format(label, confidence * 100)
             frame = cv2.rectangle(frame, tl, br, color, 5)
@@ -94,18 +113,22 @@ while True:
             print(text)
         #cv2.imshow('frame', frame)
         # All the results have been drawn on the frame, so it's time to display it.
-            if label == 'Speed 60':
-                print('speed 60 {}'.format(confidence))
-                act=60
-            elif label == 'Speed 30':
-                print('speed 30 {}'.format(confidence))
-                act=30
+            if label == 'red':
+                print('Red light stop')
+                act='stop'
             elif label == 'Stop':
                 print('stop  {}'.format(confidence))
                 act='stop'
+            elif label == 'green':
+                print('Green light go')
+                act=1
+                
+            elif label == 'Speed 60' or label == 'Speed 30':
+                act = trsigngo(labelin)
+                print('speed {}'.format(act))
+                
     else:
         act = yukigo(decimg)
-
     #print('FPS {:.1f}'.format(1 / (time.time() - stime)))
 
     # send back to server

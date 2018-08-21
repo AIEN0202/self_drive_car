@@ -63,6 +63,30 @@ while True:
     elif res == b'3':
         mod.left1()
         print(res)
+        
+#traffic sign use (Peter
+    elif res == b'sf60':
+        mod.SP_60()
+        print(res)
+    elif res == b'sf30':
+        mod.SP_30()
+        print(res)
+    elif res == b'sr60':
+        mod.SP_60R()
+        print(res)
+    elif res == b'sr30':
+        mod.SP_30R()
+        print(res)
+    elif res == b'sl60':
+        mod.SP_60L()
+        print(res)
+    elif res == b'sl30':
+        mod.SP_30L()
+    # elif res == b'stop':
+        # mod.stop()
+        # print(res)
+#traffic sign use (Peter
+
     else:
         print(res)
     # receive socket msg

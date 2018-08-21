@@ -66,7 +66,35 @@ def stop():
         init()
         pwmr.ChangeDutyCycle(0)
         pwml.ChangeDutyCycle(0)
+#traffic sign use (Peter
 
+def SP_60():
+        init()
+        pwmr.ChangeDutyCycle(95)
+        pwml.ChangeDutyCycle(95)
+
+def SP_30():
+        init()
+        pwmr.ChangeDutyCycle(40)
+        pwml.ChangeDutyCycle(40)
+
+def SP_60R():
+        init()
+        pwmrb.ChangeDutyCycle(30)
+        pwml.ChangeDutyCycle(100)
+def SP_30R():
+        init()
+        pwmrb.ChangeDutyCycle(30)
+        pwml.ChangeDutyCycle(50)
+def SP_60L():
+        init()
+        pwmr.ChangeDutyCycle(100)
+        pwmlb.ChangeDutyCycle(30)
+def SP_30L():
+        init()
+        pwmr.ChangeDutyCycle(50)
+        pwmlb.ChangeDutyCycle(30)
+#traffic sign use (Peter
 def foo():
         print('good')
 
