@@ -25,6 +25,14 @@ pwml = GPIO.PWM(PWM_PINlb, 500)
 
 pwmr.start(0)
 pwml.start(0)
+
+GPIO_TRIGGER = 23
+GPIO_ECHO = 24
+
+GPIO.setup(GPIO_TRIGGER,GPIO.OUT)  # Trigger
+GPIO.setup(GPIO_ECHO,GPIO.IN)      # Echo
+
+GPIO.output(GPIO_TRIGGER, False)
 #camera = PiCamera()
 #camera.start_preview()
 def init():
@@ -97,6 +105,33 @@ def SP_30L():
 #traffic sign use (Peter
 def foo():
         print('good')
+
+def sendSonic():
+# Allow module to settle
+        time.sleep(0.5)
+
+# Send 10us pulse to trigger
+        GPIO.output(GPIO_TRIGGER, True)
+        time.sleep(0.00001)
+        GPIO.output(GPIO_TRIGGER, False)
+        start = time.time()
+        while GPIO.input(GPIO_ECHO)==0:
+                start = time.time()
+
+        while GPIO.input(GPIO_ECHO)==1:
+                stop = time.time()
+
+# Calculate pulse length
+        elapsed = stop-start
+
+# Distance pulse travelled in that time is time
+# multiplied by the speed of sound (cm/s)
+        distance = elapsed * 34000
+
+# That was the distance there and back so halve the value
+        distance = distance / 2
+
+        return distance
 
 # try:
     # while True:
