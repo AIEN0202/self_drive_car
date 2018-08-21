@@ -8,11 +8,11 @@ PWM_PINl = 12
 GPIO.setup(PWM_PINr, GPIO.OUT)
 GPIO.setup(PWM_PINl, GPIO.OUT)
 
-pwmr = GPIO.PWM(PWM_PINr, 500)
-pwml = GPIO.PWM(PWM_PINl, 500)
+pwmrb = GPIO.PWM(PWM_PINr, 500)
+pwmlb = GPIO.PWM(PWM_PINl, 500)
 
-pwmr.start(0)
-pwml.start(0)
+pwmrb.start(0)
+pwmlb.start(0)
 
 
 PWM_PINrb = 17
@@ -20,11 +20,11 @@ PWM_PINlb = 6
 GPIO.setup(PWM_PINrb, GPIO.OUT)
 GPIO.setup(PWM_PINlb, GPIO.OUT)
 
-pwmrb = GPIO.PWM(PWM_PINrb, 500)
-pwmlb = GPIO.PWM(PWM_PINlb, 500)
+pwmr = GPIO.PWM(PWM_PINrb, 500)
+pwml = GPIO.PWM(PWM_PINlb, 500)
 
-pwmrb.start(0)
-pwmlb.start(0)
+pwmr.start(0)
+pwml.start(0)
 #camera = PiCamera()
 #camera.start_preview()
 def init():
